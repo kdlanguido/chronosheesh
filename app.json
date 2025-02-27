@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "chronosheesh",
-    "slug": "chronosheesh",
+    "name": "ChronoSync",
+    "slug": "ChronoSync",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -32,7 +32,9 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "expo-barcode-scanner",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

@@ -1,18 +1,20 @@
 // This file is a fallback for using MaterialIcons on Android and web.
 
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { SymbolWeight } from 'expo-symbols';
 import React from 'react';
-import { OpaqueColorValue, StyleProp, ViewStyle } from 'react-native';
+import { OpaqueColorValue, StyleProp, ViewStyle, Platform } from 'react-native';
 
 // Add your SFSymbol to MaterialIcons mappings here.
 const MAPPING = {
-  // See MaterialIcons here: https://icons.expo.fyi
-  // See SF Symbols in the SF Symbols app on Mac.
-  'house.fill': 'home',
-  'paperplane.fill': 'send',
-  'chevron.left.forwardslash.chevron.right': 'code',
-  'chevron.right': 'chevron-right',
+  'house.fill': Platform.OS === 'ios' ? 'home' : 'home', // Use 'home' icon for both platforms
+  'paperplane.fill': Platform.OS === 'ios' ? 'send' : 'send', // Use 'send' icon for both platforms
+  'timer.circle': Platform.OS === 'ios' ? 'timer.circle' : 'access-time', // iOS uses 'history', Android uses 'access-time'
+  'chevron.left.forwardslash.chevron.right': Platform.OS === 'ios' ? 'code' : 'code', // Using 'code' for both
+  'chevron.right': Platform.OS === 'ios' ? 'chevron-forward' : 'chevron-right',
+
+  // Add qrcode.viewfinder mapping here
+  'qrcode.viewfinder': Platform.OS === 'ios' ? 'qrcode' : 'qr-code-scanner', // iOS uses 'qrcode', Android uses 'qr-code'
 } as Partial<
   Record<
     import('expo-symbols').SymbolViewProps['name'],

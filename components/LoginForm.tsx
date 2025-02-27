@@ -3,6 +3,8 @@ import { Image, StyleSheet, TextInput, Dimensions, View, Button, TouchableOpacit
 import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import FontAwesomeIcon from '@expo/vector-icons/FontAwesome6';
 import { Link, useRouter } from 'expo-router';
+import { loginUser } from '@/api/user';
+import { setIsLoggedIn } from '@/utils/storage';
 
 
 const LoginForm = () => {
@@ -10,8 +12,16 @@ const LoginForm = () => {
     const [email, onChangeEmail] = React.useState('');
     const [password, onChangePassword] = React.useState('');
 
-    const onLoginClick = () => {
-        router.push('/dashboard')
+    const onLoginClick = async () => {
+
+        try {
+            await loginUser(email, password);
+            await setIsLoggedIn(true)
+            router.push('/')
+        } catch (error) {
+            alert('Login Failed')
+        }
+
     }
 
     const { width } = Dimensions.get('window');
@@ -148,8 +158,8 @@ const LoginForm = () => {
                     <FontAwesomeIcon name="arrow-right" size={19} color="white" style={styles.loginIcon} />
                 </View>
 
-                <TouchableOpacity style={styles.forgotPasswordButton} onPress={onLoginClick}>
-                    <Text style={styles.forgotPasswordButtonText}>Forgot Password?</Text>
+                <TouchableOpacity style={styles.forgotPasswordButton}>
+                    <Link href="/forgot-password" style={styles.forgotPasswordButtonText}>Forgot Password?</Link>
                 </TouchableOpacity>
 
 

@@ -1,17 +1,43 @@
-import React from 'react';
+import { getRecords } from '@/api/record';
+import { getUserId } from '@/utils/user.storage';
+import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 
 const HistoryTable = () => {
-    const data = [
-        { id: '1', history: 'History 1', today: 'Class 1' },
-        { id: '2', history: 'History 2', today: 'Class 2' },
-        { id: '3', history: 'History 3', today: 'Class 3' },
-    ];
+
+    const [userId, setUserId] = useState<string>('')
+    const [historyData, setHistoryData] = useState()
+
+    useEffect(() => {
+        const fetchUserId = async () => {
+            const userid = await getUserId();
+            setUserId(userid);
+        };
+
+        fetchUserId();
+    }, []);
+
+    useEffect(() => {
+
+        if (userId) {
+
+            const fetchRecords = async () => {
+                const records = await getRecords(userId);
+                setHistoryData(records);
+            };
+
+            fetchRecords();
+
+            const intervalId = setInterval(fetchRecords, 5000);
+
+            return () => clearInterval(intervalId);
+        }
+    }, [userId]);
 
     const renderItem = ({ item }: any) => (
         <View style={styles.row}>
-            <Text style={styles.cell}>{item.history}</Text>
-            <Text style={styles.cell}>{item.today}</Text>
+            <Text style={styles.cell}>{item.className}</Text>
+            <Text style={styles.cell}>{item.dateTime}</Text>
         </View>
     );
 
@@ -22,9 +48,9 @@ const HistoryTable = () => {
                 <Text style={styles.headerText}>Today</Text>
             </View>
             <FlatList
-                data={data}
+                data={historyData}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.className}
                 style={styles.table}
             />
         </View>
@@ -58,7 +84,6 @@ const styles = StyleSheet.create({
     },
     cell: {
         flex: 1,
-        textAlign: 'center',
         padding: 5,
     },
 });

@@ -1,9 +1,9 @@
-import SignUpForm from '@/components/SignUpForm';
+import ForgotPasswordForm from '@/components/ForgotPasswordForm';
 import React from 'react';
 
 const Signup = () => {
     return (
-        <SignUpForm />
+        <ForgotPasswordForm />
     );
 };
 
